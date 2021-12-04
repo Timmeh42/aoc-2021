@@ -1,47 +1,48 @@
-function scoreBoard(board: string): number {
-    const nums = board.match(/\d+/g) || [];
-    return nums.map(n => parseInt(n)).reduce((sum, num) => sum + num, 0);
-}
-
 module.exports = function (input: string) {
     const items = input.trim().split('\n\n');
-    const nums = (items.shift() as string).split(',');
-    const boards = items;
-
-    const horizontal = /x *x *x *x *x/g;
-    const vertical = /(x(\s+\w+\s*){4}){4}x/g;
-    const criss = /(x(\s+\w+\s*){5}){4}x/g;
-    const cross = /(x(\s+\w+\s*){3}){4}x/g;
-    const winnables = [
-        horizontal, 
-        vertical,
-    ]
+    const nums = items[0].split(',').map(s => parseInt(s));
+    const boards = items.slice(1).map(s => ({
+        bingo: false,
+        squares: s.trim().split(/\s+/).map(s => parseInt(s)) as (number | null)[],
+        bingos: (new Array(10)).fill(0),
+    }));
 
     let wins = 0;
-    const winScores = []
-
-    for (let num of nums) {
-        const numRegex = new RegExp(`\\b${num}\\b`, 'g');
-        for (let b = 0; b < boards.length; b++) {
-            if (boards[b] != 'win') {
-                let newBoard = boards[b].replace(numRegex, 'x')
-                for (let winnable of winnables) {
-                    if (newBoard.match(winnable)) {
-                        wins += 1
-                        const score = scoreBoard(newBoard) * parseInt(num);
+    const winScores = [];
+    for (let i = 0; i < nums.length; i++) {
+        const num = nums[i];
+        const boardCount = boards.length;
+        for (let board of boards) {
+            if (board.bingo) {
+                continue;
+            }
+            const squares = board.squares;
+            const squareCount = squares.length;
+            for (let s = 0; s < squareCount; s++) {
+                if (squares[s] === num) {
+                    const bingoX = s % 5;
+                    const bingoY = 5 + ~~(s / 5);
+                    squares[s] = null;
+                    if (++board.bingos[bingoX] === 5 || ++board.bingos[bingoY] === 5) {
+                        wins++;
+                        board.bingo = true;
                         if (wins === 1) {
-                            winScores[0] = score;
-                        } else if (wins === boards.length) {
-                            winScores[1] = score;
+                            // @ts-ignore
+                            const total = squares.reduce((sum, s) => sum + s);
+                            // @ts-ignore
+                            winScores[0] = total * num;
+                        } else if (wins === boardCount) {
+                            // @ts-ignore
+                            const total = squares.reduce((sum, s) => sum + s);
+                            // @ts-ignore
+                            winScores[1] = total * num;
                             return winScores;
                         }
-                        newBoard = 'win';
                     }
+                    break;
                 }
-                boards[b] = newBoard;
             }
         }
     }
-
     return 0;
 }
