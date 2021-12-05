@@ -1,9 +1,10 @@
 module.exports = function (input) {
-    const lines = input.trim().split('\n');
-    const dangers1 = new Array(1000);
-    const dangers2 = new Array(1000);
+    const lines = input.trim().split('\n').map(l => l.match(/\d+/g).map(s => parseInt(s)));
+    const max = Math.max(...lines.flat());
+    const dangers1 = new Int8Array(max * max);
+    const dangers2 = new Int8Array(max * max);
     for (let i = 0; i < lines.length; i++) {
-        const coords = lines[i].match(/\d+/g).map(s => parseInt(s));
+        const coords = lines[i];
         const x1 = coords[0],
               x2 = coords[2],
               y1 = coords[1],
@@ -15,19 +16,15 @@ module.exports = function (input) {
         for (let i = 0; i <= len; i++) {
             let x = x1 + i * dx,
                 y = y1 + i * dy;
-
-            if (!dangers1[x]) {
-                dangers1[x] = new Array(1000);
-                dangers2[x] = new Array(1000);
-            }
+            const index = x + y * max;
             if (dx === 0 || dy === 0) {
-                dangers1[x][y] = (dangers1[x][y] || 0) + 1
+                dangers1[index] += 1;
             }
-            dangers2[x][y] = (dangers2[x][y] || 0) + 1
+            dangers2[index] += 1;
         }
     }
     return [
-        dangers1.flat().filter(n => n > 1).length,
-        dangers2.flat().filter(n => n > 1).length
+        dangers1.filter(n => n > 1).length,
+        dangers2.filter(n => n > 1).length
     ];
 }
