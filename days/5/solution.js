@@ -21,19 +21,13 @@ module.exports = function (input) {
                   y = y1 + i * dy;
             const index = x + y * max;
             if (cartesian) {
-                const current1 = dangers1[index];
-                if (current1 === 0) {
-                    dangers1[index] = current1 + 1;
-                } else if (current1 === 1) {
-                    dangers1[index] = current1 + 1;
+                dangers1[index] += 1;
+                if (dangers1[index] === 2) {
                     count1 ++;
                 }
             }
-            const current2 = dangers2[index];
-            if (current2 === 0) {
-                dangers2[index] = current2 + 1;
-            } else if (current2 === 1) {
-                dangers2[index] = current2 + 1;
+            dangers2[index] += 1;
+            if (dangers2[index] === 2) {
                 count2 ++;
             }
         }
