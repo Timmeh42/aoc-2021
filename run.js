@@ -1,6 +1,6 @@
 const fs = require('fs');
 const argsRaw = process.argv.slice(2).join(' ');
-const argsMatch = argsRaw.match(/^(?<day>\d+)(?: (?<part>(?:1|2)\b))?(?: (?<runs>\d+)?)?/);
+const argsMatch = argsRaw.match(/^(?<day>\d+)(?: (?<part>(?:1|2|solution)\b))?(?: (?<runs>\d+)?)?/);
 if (argsMatch === null || !argsMatch.groups.day) {
     console.error('Usage: node run <day> [<part>] [<runs>]');
     console.error('Missing <day> input');
