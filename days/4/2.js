@@ -1,9 +1,9 @@
-module.exports = function (input: string) {
+module.exports = function (input) {
     const items = input.trim().split('\n\n');
     const nums = items[0].split(',').map(s => parseInt(s));
     const boards = items.slice(1).map(s => ({
         bingo: false,
-        squares: s.trim().split(/\s+/).map(s => parseInt(s)) as (number | null)[],
+        squares: s.trim().split(/\s+/).map(s => parseInt(s)),
         bingos: (new Array(10)).fill(0),
     }));
 
@@ -27,14 +27,10 @@ module.exports = function (input: string) {
                         wins++;
                         board.bingo = true;
                         if (wins === 1) {
-                            // @ts-ignore
                             const total = squares.reduce((sum, s) => sum + s);
-                            // @ts-ignore
                             winScores[0] = total * num;
                         } else if (wins === boardCount) {
-                            // @ts-ignore
                             const total = squares.reduce((sum, s) => sum + s);
-                            // @ts-ignore
                             winScores[1] = total * num;
                             return winScores;
                         }

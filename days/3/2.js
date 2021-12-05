@@ -1,8 +1,8 @@
-function filter(lines: string[], pickOnes: boolean = true): string {
+function filter(lines, pickOnes = true) {
     const lineLength = lines[0].length;
     for (let j = 0; j < lineLength; j++) {
-        const ones: string[] = [],
-              zeroes: string[] = [];
+        const ones = [],
+              zeroes = [];
         const lineCount = lines.length;
         for (let i = 0; i < lineCount; i++) {
             const line = lines[i];
@@ -20,7 +20,7 @@ function filter(lines: string[], pickOnes: boolean = true): string {
     return lines[0];
 }
 
-module.exports = function (input: string) {
+module.exports = function (input) {
     const lines = input.trim().split('\n');
     const oxy = parseInt(filter(lines), 2);
     const co2 = parseInt(filter(lines, false), 2);

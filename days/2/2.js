@@ -1,4 +1,4 @@
-module.exports = function (input: string) {
+module.exports = function (input) {
     const lines = input.split('\n');
     let x = 0,
         y = 0,

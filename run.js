@@ -1,20 +1,14 @@
 const fs = require('fs');
-
-const args = process.argv.slice(2);
-if (args.length === 0) {
+const argsRaw = process.argv.slice(2).join(' ');
+const argsMatch = argsRaw.match(/^(?<day>\d+)(?: (?<part>(?:1|2)\b))?(?: (?<runs>\d+)?)?/);
+if (argsMatch === null || !argsMatch.groups.day) {
     console.error('Usage: node run <day> [<part>] [<runs>]');
     console.error('Missing <day> input');
     process.exit(1);
 }
 
-const day: string | undefined = args.shift();
-const parts = [];
-if (args[0] === '1' || args[0] === '2') {
-    parts.push(args.shift());
-} else {
-    parts.push('1', '2');
-}
-const runs = typeof args[0] === 'string' ? parseInt(args[0]) : 1;
+const {day, part, runs = 1} = argsMatch.groups;
+
 
 let input;
 try {
@@ -24,15 +18,14 @@ try {
     process.exit(1);
 }
 
+const parts = part ? [part] : ['1', '2'];
 for (let p of parts) {
-    let answer: Function;
+    let answer;
     try {
-        answer = require(`./days/${day}/${p}.ts`);
+        answer = require(`./days/${day}/${p}.js`);
     } catch (e) {
         console.error(`days/${day}/${p} not found or failed parse.`);
-        if (e instanceof Error) {
-            console.error(e.message);
-        }
+        console.error(e.message);
         process.exit(1);
     }
     let solution;

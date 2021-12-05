@@ -1,5 +1,4 @@
-// @ts-nocheck
-module.exports = function (input: string) {
+module.exports = function (input) {
     const lines = input.trim().split('\n');
     const vents = [];
     const dangers = {};

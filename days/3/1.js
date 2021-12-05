@@ -1,4 +1,4 @@
-module.exports = function (input: string) {
+module.exports = function (input) {
     const lines = input.trim().split('\n');
     const lineCount = lines.length;
     const lineLength = lines[0].length;

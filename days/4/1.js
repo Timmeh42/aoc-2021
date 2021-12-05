@@ -1,10 +1,8 @@
-
-
-module.exports = function (input: string) {
+module.exports = function (input) {
     const items = input.trim().split('\n\n');
-    const nums = (items.shift() as string).split(',').map(s => parseInt(s));
+    const nums = items.shift().split(',').map(s => parseInt(s));
     const boards = items.map(s => ({
-        squares: s.trim().split(/\s+/).map(s => parseInt(s)) as (number | null)[],
+        squares: s.trim().split(/\s+/).map(s => parseInt(s)),
         bingos: (new Array(25)).fill(0),
     }));
 
@@ -23,23 +21,14 @@ module.exports = function (input: string) {
                     squares[s] = null;
                     const bingo = ++bingos[bingoX] === 5 || ++bingos[bingoY] === 5;
                     if (bingo) {
-                        // @ts-ignore
                         const total = squares.reduce((sum, s) => sum + s);
-                        // @ts-ignore
                         const score = total * num;
                         return score;
                     }
                     break;
                 }
-
-
-
-
             }
-
         }
-
-
     }
     return 0;
 }
