@@ -13,20 +13,27 @@ module.exports = function (input) {
               y2 = coords[3];
         const dy = Math.sign(y2 - y1),
               dx = Math.sign(x2 - x1);
-        const len = Math.abs(dy === 0 ? x2 - x1 : y2 - y1);
+        const cartesian = dx === 0 || dy === 0;
 
+        const len = dy === 0 ? (x2 - x1)*dx : (y2 - y1)*dy;
         for (let i = 0; i <= len; i++) {
-            let x = x1 + i * dx,
-                y = y1 + i * dy;
+            const x = x1 + i * dx,
+                  y = y1 + i * dy;
             const index = x + y * max;
-            if (dx === 0 || dy === 0) {
-                dangers1[index] += 1;
-                if (dangers1[index] === 2) {
+            if (cartesian) {
+                const current1 = dangers1[index];
+                if (current1 === 0) {
+                    dangers1[index] = current1 + 1;
+                } else if (current1 === 1) {
+                    dangers1[index] = current1 + 1;
                     count1 ++;
                 }
             }
-            dangers2[index] += 1;
-            if (dangers2[index] === 2) {
+            const current2 = dangers2[index];
+            if (current2 === 0) {
+                dangers2[index] = current2 + 1;
+            } else if (current2 === 1) {
+                dangers2[index] = current2 + 1;
                 count2 ++;
             }
         }
