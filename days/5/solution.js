@@ -10,7 +10,7 @@ module.exports = function (input) {
               y2 = coords[3];
         const dy = Math.sign(y2 - y1),
               dx = Math.sign(x2 - x1);
-        const len = Math.abs(dy === 0 ? y2 - y1 : x2 - x1);
+        const len = Math.abs(dy === 0 ? x2 - x1 : y2 - y1);
 
         for (let i = 0; i <= len; i++) {
             let x = x1 + i * dx,
