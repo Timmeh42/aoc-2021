@@ -3,6 +3,8 @@ module.exports = function (input) {
     const max = Math.max(...lines.flat());
     const dangers1 = new Int8Array(max * max);
     const dangers2 = new Int8Array(max * max);
+    let count1 = 0;
+    let count2 = 0;
     for (let i = 0; i < lines.length; i++) {
         const coords = lines[i];
         const x1 = coords[0],
@@ -19,12 +21,18 @@ module.exports = function (input) {
             const index = x + y * max;
             if (dx === 0 || dy === 0) {
                 dangers1[index] += 1;
+                if (dangers1[index] === 2) {
+                    count1 ++;
+                }
             }
             dangers2[index] += 1;
+            if (dangers2[index] === 2) {
+                count2 ++;
+            }
         }
     }
     return [
-        dangers1.filter(n => n > 1).length,
-        dangers2.filter(n => n > 1).length
+        count1,
+        count2
     ];
 }
