@@ -4,24 +4,15 @@ module.exports = function (input) {
     for (let i = 0; i < fishList.length; i++) {
         groups[fishList[i]] += 1;
     }
-    let part1 = 0;
-    let part2 = 0;
-    for (let day = 0; day < 256; day++) {
-        let carry = 0;
-        for (let g = 8; g >= 0; g--) {
-            const newCarry = groups[g];
-            groups[g] = carry;
-            carry = newCarry;
-            if (g === 0) {
-                groups[8] = carry;
-                groups[6] += carry;
-            }
-        }
-        if (day === 79) {
-            part1 = groups.reduce((sum, g) => sum + g);
-        }
+    for (let day = 0; day < 80; day++) {
+        groups[(day+7) % 9] += groups[day % 9]
     }
-    part2 = groups.reduce((sum, g) => sum + g);
+    const part1 = groups.reduce((sum, g) => sum + g);
+    
+    for (let day = 80; day < 256; day++) {
+        groups[(day+7) % 9] += groups[day % 9]
+    }
+    const part2 = groups.reduce((sum, g) => sum + g);
 
     return [part1, part2];
 }
