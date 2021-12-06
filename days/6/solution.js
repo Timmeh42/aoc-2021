@@ -1,5 +1,5 @@
 module.exports = function (input) {
-    const fishList = input.trim().split(',').map(s => parseInt(s));
+    const fishList = eval('[' + input + ']');
     const groups = (new Array(9)).fill(0);
     for (let i = 0; i < fishList.length; i++) {
         groups[fishList[i]] += 1;
