@@ -1,8 +1,7 @@
 module.exports = function (input) {
-    const fishList = eval('[' + input + ']');
     const groups = (new Array(9)).fill(0);
-    for (let i = 0; i < fishList.length; i++) {
-        groups[fishList[i]] += 1;
+    for (let i = 0; i < input.length; i += 2) {
+        groups[input.charCodeAt(i) - 48] += 1;
     }
     for (let day = 0; day < 80; day++) {
         groups[(day+7) % 9] += groups[day % 9]
