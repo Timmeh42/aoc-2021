@@ -35,6 +35,6 @@ for (let p of parts) {
     }
     const endTime = process.hrtime.bigint();
     const avgTime = Number(endTime - startTime) / 1e6 / runs;
-    console.log(`Part ${p}: ${avgTime.toFixed(3)}ms`);
+    console.log(`Part ${p}: ${avgTime.toFixed(6)}ms`);
     console.log(solution);
 }
