@@ -1,5 +1,5 @@
 module.exports = function (input) {
-    const crabs = input.trim().split(',').map(s => parseInt(s));
+    const crabs = input.trim().split(',').map(s => +s);
     const max = Math.max(...crabs);
     let part1 = Infinity;
     let part2 = Infinity;
