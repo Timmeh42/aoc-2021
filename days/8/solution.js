@@ -5,28 +5,30 @@ module.exports = function (input) {
                     .length;
 
     const lines = input.trim().split('\n');
-    const displays = lines.map(l => l.split(' | ').map(s => s.split(' ')));
 
     let part2 = 0;
-    for (let display of displays) {
-        const digits = [];
-        digits[1] = display[0].find(s => s.length === 2);
-        digits[4] = display[0].find(s => s.length === 4);
-        digits[7] = display[0].find(s => s.length === 3);
-        digits[8] = display[0].find(s => s.length === 7);
-        for (let digit of display[0]) {
-            if (digit.length === 5) {
-                if (overlap(digit, digits[7]) === 3) {
+    for (let line of lines) {
+        const display = line.split(' | ');
+        const inputs = display[0].split(' ').map(d => toBits(d));
+        const outputs = display[1].split(' ').map(d => toBits(d));
+        const digits = new Array(10);
+        digits[1] = inputs.find(s => countOnes(s) === 2);
+        digits[4] = inputs.find(s => countOnes(s) === 4);
+        digits[7] = inputs.find(s => countOnes(s) === 3);
+        digits[8] = inputs.find(s => countOnes(s) === 7);
+        for (let digit of inputs) {
+            if (countOnes(digit) === 5) {
+                if (countOnes(digit & digits[7]) === 3) {
                     digits[3] = digit;
-                } else if (overlap(digit, digits[4]) === 3) {
+                } else if (countOnes(digit & digits[4]) === 3) {
                     digits[5] = digit;
                 } else {
                     digits[2] = digit;
                 }
-            } else if (digit.length === 6) {
-                if (overlap(digit, digits[7]) === 2) {
+            } else if (countOnes(digit) === 6) {
+                if (countOnes(digit & digits[7]) === 2) {
                     digits[6] = digit;
-                } else if (overlap(digit, digits[4]) === 4) {
+                } else if (countOnes(digit & digits[4]) === 4) {
                     digits[9] = digit;
                 } else {
                     digits[0] = digit;
@@ -35,8 +37,8 @@ module.exports = function (input) {
         }
 
         for (let d = 0; d < 4; d++) {
-            const digToFind = display[1][d];
-            const dig = digits.findIndex(di => (overlap(di, digToFind) === di.length) && (di.length === digToFind.length));
+            const digToFind = outputs[d];
+            const dig = digits.indexOf(digToFind);
             part2 += (10 ** (3-d)) * dig;
         }
     }
@@ -44,12 +46,19 @@ module.exports = function (input) {
     return [part1, part2];
 }
 
-function overlap(a, b) {
-    let area = 0;
-    for (let i = 0; i < a.length; i++) {
-        if (b.indexOf(a[i]) >= 0) {
-            area++;
-        }
+function countOnes(num) {
+    let count = 0;
+    while (num) {
+        count += num & 1;
+        num = num >> 1;
     }
-    return area;
+    return count;
+}
+
+function toBits(str) {
+    let num = 0;
+    for (let i = 0; i < str.length; i++) {
+        num += 1 << (str.charCodeAt(i) - 97);
+    }
+    return num;
 }
