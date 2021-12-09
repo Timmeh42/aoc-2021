@@ -2,35 +2,34 @@ module.exports = function (input) {
     const lines = input.trim().split('\n');
     const width = lines[0].length;
     const height = lines.length;
-    const map = input.replace(/\n/g, '');
+    const map = input.replace(/\n/g, '').split('').map(s => +s);
     let part1 = 0;
-    const lowPoints = [];
     const basins = [];
     for (let y = 0; y < height; y++) {
         for (let x = 0; x < width; x++) {
-            let low = true;
-            if (y != 0) {
-                low = low && lines[y][x] < lines[y-1][x];
+            const level = map[x + y * width];
+            if (level === 9) {
+                continue
             }
-            if (y != height-1) {
-                low = low && lines[y][x] < lines[y+1][x];
+            if (y != 0 && level > map[x + (y - 1) * width]) {
+                continue;
             }
-            if (x != 0) {
-                low = low && lines[y][x] < lines[y][x-1];
+            if (y != height-1 && level > map[x + (y + 1) * width]) {
+                continue;
             }
-            if (x != width-1) {
-                low = low && lines[y][x] < lines[y][x+1];
+            if (x != 0 && level > map[x-1 + y * width]) {
+                continue;
             }
-            if (low) {
-                lowPoints.push([x, y]);
-                basins.push(flood(lines, x, y, width, height));
-                part1 += +lines[y][x] + 1;
+            if (x != width-1 && level > map[x + 1 + y * width]) {
+                continue;
             }
+            basins.push(flood(map, x, y, width, height));
+            part1 += level + 1;
         }
     }
     part2 = basins.sort((a, b) => b-a)
                 .slice(0,3)
-                .reduce((mul, b) => mul * b)
+                .reduce((mul, b) => mul * b, 1)
                 ;
 
     return [part1, part2];
@@ -44,29 +43,31 @@ function flood (map, x, y, width, height) {
     while (queue.length) {
         area += 1;
         const point = queue.pop();
-        nx = point[0]-1;
-        ny = point[1];
-        if (nx >= 0 && !seen.has(`${nx},${ny}`) && map[ny][nx] != '9') {
+        const px = point[0],
+              py = point[1];
+        nx = px-1;
+        ny = py;
+        if (nx >= 0 && !seen.has(nx + ny * width) && map[nx + ny * width] != 9) {
             queue.push([nx, ny]);
-            seen.add(`${nx},${ny}`);
+            seen.add(nx + ny * width);
         }
-        nx = point[0]+1;
-        ny = point[1];
-        if (nx < width && !seen.has(`${nx},${ny}`) && map[ny][nx] != '9') {
+        nx = px+1;
+        ny = py;
+        if (nx < width && !seen.has(nx + ny * width) && map[nx + ny * width] != 9) {
             queue.push([nx, ny]);
-            seen.add(`${nx},${ny}`);
+            seen.add(nx + ny * width);
         }
-        nx = point[0];
-        ny = point[1]-1;
-        if (ny >= 0 && !seen.has(`${nx},${ny}`) && map[ny][nx] != '9') {
+        nx = px;
+        ny = py-1;
+        if (ny >= 0 && !seen.has(nx + ny * width) && map[nx + ny * width] != 9) {
             queue.push([nx, ny]);
-            seen.add(`${nx},${ny}`);
+            seen.add(nx + ny * width);
         }
-        nx = point[0];
-        ny = point[1]+1;
-        if (ny < height && !seen.has(`${nx},${ny}`) && map[ny][nx] != '9') {
+        nx = px;
+        ny = py+1;
+        if (ny < height && !seen.has(nx + ny * width) && map[nx + ny * width] != 9) {
             queue.push([nx, ny]);
-            seen.add(`${nx},${ny}`);
+            seen.add(nx + ny * width);
         }
     }
     return area;
