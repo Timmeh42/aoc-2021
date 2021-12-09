@@ -39,35 +39,29 @@ function flood (map, x, y, width, height) {
     const queue = [[x,y]];
     const seen = new Set();
     let area = -1;
-    let nx, ny;
+    let index;
     while (queue.length) {
         area += 1;
-        const point = queue.pop();
-        const px = point[0],
-              py = point[1];
-        nx = px-1;
-        ny = py;
-        if (nx >= 0 && !seen.has(nx + ny * width) && map[nx + ny * width] != 9) {
-            queue.push([nx, ny]);
-            seen.add(nx + ny * width);
+        const [px, py] = queue.pop();
+        index = px + py * width - 1;
+        if (px - 1 >= 0 && !seen.has(index) && map[index] != 9) {
+            queue.push([px - 1, py]);
+            seen.add(index);
         }
-        nx = px+1;
-        ny = py;
-        if (nx < width && !seen.has(nx + ny * width) && map[nx + ny * width] != 9) {
-            queue.push([nx, ny]);
-            seen.add(nx + ny * width);
+        index = px + py * width + 1;
+        if (px + 1 < width && !seen.has(index) && map[index] != 9) {
+            queue.push([px + 1, py]);
+            seen.add(index);
         }
-        nx = px;
-        ny = py-1;
-        if (ny >= 0 && !seen.has(nx + ny * width) && map[nx + ny * width] != 9) {
-            queue.push([nx, ny]);
-            seen.add(nx + ny * width);
+        index = px + (py - 1) * width;
+        if (py - 1 >= 0 && !seen.has(index) && map[index] != 9) {
+            queue.push([px, py - 1]);
+            seen.add(index);
         }
-        nx = px;
-        ny = py+1;
-        if (ny < height && !seen.has(nx + ny * width) && map[nx + ny * width] != 9) {
-            queue.push([nx, ny]);
-            seen.add(nx + ny * width);
+        index = px + (py + 1) * width;
+        if (py + 1 < height && !seen.has(index) && map[index] != 9) {
+            queue.push([px, py + 1]);
+            seen.add(index);
         }
     }
     return area;
