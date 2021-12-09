@@ -30,11 +30,18 @@ for (let p of parts) {
     }
     let solution;
     const startTime = process.hrtime.bigint();
+    solution = answer(input);
+    const splitTime = process.hrtime.bigint();
     for (let i = 0; i < runs; i++) {
         solution = answer(input);
     }
     const endTime = process.hrtime.bigint();
-    const avgTime = Number(endTime - startTime) / 1e6 / runs;
-    console.log(`Part ${p}: ${avgTime.toFixed(6)}ms`);
+    const oneTime = Number(splitTime - startTime) / 1e6;
+    const avgTime = Number(endTime - splitTime) / 1e6 / runs;
+    console.log('Solution:');
     console.log(solution);
+    console.log(`One run: ${oneTime.toFixed(6)}ms`);
+    if (runs > 1) {
+        console.log(`${runs} runs: ${avgTime.toFixed(6)}ms`);
+    }
 }
