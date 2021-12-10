@@ -42,6 +42,6 @@ for (let p of parts) {
     console.log(solution);
     console.log(`One run: ${oneTime.toFixed(6)}ms`);
     if (runs > 1) {
-        console.log(`${runs} runs: ${avgTime.toFixed(6)}ms`);
+        console.log(`${runs} runs: ${avgTime.toFixed(6)}ms avg`);
     }
 }
