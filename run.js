@@ -32,7 +32,7 @@ for (let p of parts) {
     const startTime = process.hrtime.bigint();
     solution = answer(input);
     const splitTime = process.hrtime.bigint();
-    for (let i = 0; i < runs; i++) {
+    for (let i = 0; i < runs - 1; i++) {
         solution = answer(input);
     }
     const endTime = process.hrtime.bigint();
