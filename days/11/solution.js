@@ -41,11 +41,13 @@ function feed(x, y, grid, width, height) {
     let flashes = 0;
     if (level === 10) {
         flashes += 1;
-        for (let dx = x-1; dx <= x+1; dx++){
-            for (let dy = y-1; dy <= y+1; dy++){
-                if (dx >= 0 && dy >= 0 && dx < width && dy < height) {
-                    flashes += feed(dx, dy, grid, width, height);
-                }
+        const xMin = Math.max(x-1, 0);
+        const yMin = Math.max(y-1, 0);
+        const xMax = Math.min(x+1, width-1);
+        const yMax = Math.min(y+1, height-1);
+        for (let dx = xMin; dx <= xMax; dx++){
+            for (let dy = yMin; dy <= yMax; dy++){
+                flashes += feed(dx, dy, grid, width, height);
             }
         }
     }
