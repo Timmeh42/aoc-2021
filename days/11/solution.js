@@ -7,7 +7,7 @@ module.exports = function (input) {
     let part1, part2;
 
     let flashes = 0;
-    for (let t = 0; true; t++) {
+    for (let t = 1; true; t++) {
         let stepFlashes = 0;
         for (let x = 0; x < width; x++) {
             for (let y = 0; y < height; y++) {
@@ -22,11 +22,11 @@ module.exports = function (input) {
              }
         }
         flashes += stepFlashes;
-        if (t === 99) {
+        if (t === 100) {
             part1 = flashes;
         }
         if (stepFlashes === width * height) {
-            part2 = t + 1;
+            part2 = t;
         }
         if (part1 && part2) {
             break;
