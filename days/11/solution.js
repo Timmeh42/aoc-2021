@@ -1,6 +1,6 @@
 module.exports = function (input) {
     const width = input.indexOf('\n');
-    const height = input.match(/\n/g).length + 1;
+    const height = input.match(/\n/g).length;
 
     const grid = input.split('\n').map(l => l.split('').map(s => +s));
 
