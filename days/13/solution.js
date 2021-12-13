@@ -8,7 +8,8 @@ module.exports = function (input) {
         points.add(x + y * 10000);
     }
     for (let line of sections[1]) {
-        const [axis, mark] = line.match(/\w(?==)|\d+/g);
+        let [axis, mark] = line.match(/\w(?==)|\d+/g);
+        mark = +mark;
         let foldedPoints = new Set();
         points.forEach(p => {
             let px = p % 10000;
@@ -39,7 +40,7 @@ module.exports = function (input) {
         }
         grid[py][px] = '#';
     })
-    part2 = grid.map(gy => gy.join('')).join('\n');
+    part2 = '\n' + grid.map(gy => gy.join('')).join('\n');
 
     return [part1, part2];
 }
