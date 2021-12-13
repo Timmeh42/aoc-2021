@@ -36,9 +36,9 @@ module.exports = function (input) {
         let px = p % 10000;
         let py = ~~(p / 10000);
         if (!grid[py]) {
-            grid[py] = (new Array(40)).fill('.');
+            grid[py] = (new Array(40)).fill(' ');
         }
-        grid[py][px] = '#';
+        grid[py][px] = '█';
     })
     part2 = '\n' + grid.map(gy => gy.join('')).join('\n');
 
