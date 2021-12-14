@@ -1,59 +1,9 @@
 module.exports = function (input) {
     const sections = input.trim().split('\n\n');
     let part1, part2;
-
-    // part 1 starts here
-
-    let counts = new Map();
-    let start, end;
-    for (let c = 0; c < sections[0].length; c++) {
-        const newPolymer = {
-            label: sections[0].charCodeAt(c),
-            next: null,
-        }
-        if (!start) {
-            start = newPolymer;
-        } else {
-            end.next = newPolymer;
-        }
-        end = newPolymer;
-        counts.set(newPolymer.label, (counts.get(newPolymer.label) || 0) + 1);
-    }
     
-    const rules = new Map();
-    const ruleLines = sections[1].split('\n');
-    for (let line of ruleLines) {
-        const first = line.charCodeAt(0);
-        const second = line.charCodeAt(1);
-        const insert = line.charCodeAt(6);
-        if (!rules.has(first)) {
-            rules.set(first, new Map());
-        }
-        rules.get(first).set(second, insert);
-    }
-    for (let t = 0; t < 10; t++) {
-        let pointer = start;
-        while (pointer != end) {
-            const insert = rules.get(pointer.label)?.get(pointer.next.label);
-            if (insert) {
-                pointer.next = {
-                    label: insert,
-                    next: pointer.next,
-                }
-                pointer = pointer.next;
-                counts.set(insert, (counts.get(insert) || 0) + 1);
-            }
-            pointer = pointer.next;
-        }
-    }
-    let leastCommon = Math.min(...counts.values())
-    let mostCommon = Math.max(...counts.values())
-    part1 = mostCommon - leastCommon;
-
-    // part 2 starts here
-
-    counts = new Map();
     const pairResults = new Map();
+    const ruleLines = sections[1].split('\n');
     for (let line of ruleLines) {
         const first = line[0];
         const second = line[1];
@@ -68,6 +18,7 @@ module.exports = function (input) {
         });
     }
     const polymer = sections[0];
+    const counts = new Map();
     for (let c = 0; c < polymer.length; c++) {
         const first = polymer[c];
         if (!counts.has(first)) {
@@ -83,7 +34,7 @@ module.exports = function (input) {
         }
     }
 
-    for (let t = 0; t < 40; t++) {
+    for (let t = 1; t <= 40; t++) {
         pairResults.forEach(contents => {
             pairResults.get(contents.results[0]).newCount += contents.count;
             pairResults.get(contents.results[1]).newCount += contents.count;
@@ -93,10 +44,11 @@ module.exports = function (input) {
             contents.count = contents.newCount;
             contents.newCount = 0;
         });
+        if (t === 10) {
+            part1 = Math.max(...counts.values()) - Math.min(...counts.values());
+        }
     }
-    leastCommon = Math.min(...counts.values())
-    mostCommon = Math.max(...counts.values())
-    part2 = mostCommon - leastCommon;
+    part2 = Math.max(...counts.values()) - Math.min(...counts.values());
 
     return [part1, part2];
 }
