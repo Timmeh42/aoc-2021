@@ -24,7 +24,7 @@ class PriorityQueue {
         const item = priorityGroup.pop();
         this.length -= 1;
         if (priorityGroup.length === 0) {
-            delete this.arr[this.end];
+            this.arr[this.end] = undefined;
             if (this.length !== 0) {
                 while (!this.arr[this.end]) {
                     this.end ++;
