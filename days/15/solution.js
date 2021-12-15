@@ -1,43 +1,39 @@
 class PriorityQueue {
     constructor () {
+        this.arr = [];
         this.end = undefined;
         this.length = 0;
     }
 
     insert (value, priority) {
-        const newItem = {
-            value,
-            priority,
-            next: undefined,
-        };
-        if (this.end === undefined) {
-            this.end = newItem;
-        } else {
-            let current = this.end;
-            if (priority < current.priority) {
-                this.end = newItem;
-                newItem.next = current;
-            } else {
-                let next = current.next;
-                while (next !== undefined && priority >= next.priority) {
-                    current = next;
-                    next = next.next;
-                }
-                newItem.next = next;
-                current.next = newItem;
-            }
+        let priorityGroup = this.arr[priority];
+        if (!priorityGroup) {
+            priorityGroup = [];
+            this.arr[priority] = priorityGroup;
+        }
+        priorityGroup.push(value);
+        if (!this.end || priority < this.end) {
+            this.end = priority;
         }
         this.length += 1;
         return this;
     }
 
     pop () {
-        const item = this.end;
-        if (item !== undefined) {
-            this.end = item.next;
-            this.length -= 1;
+        const priorityGroup = this.arr[this.end];
+        const item = priorityGroup.pop();
+        this.length -= 1;
+        if (priorityGroup.length === 0) {
+            delete this.arr[this.end];
+            if (this.length !== 0) {
+                while (!this.arr[this.end]) {
+                    this.end ++;
+                }
+            } else {
+                this.end = undefined;
+            }
         }
-        return item.value;
+        return item;
     }
 }
 
