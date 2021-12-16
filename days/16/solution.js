@@ -7,9 +7,9 @@ class BitReader {
     }
 
     readChar () {
-        const char = this.input[this.pointer];
+        const charCode = this.input.charCodeAt(this.pointer);
         this.pointer += 1;
-        this.store = (this.store << 4) + parseInt(char, 16);
+        this.store = (this.store << 4) + charCode - (charCode >= 65 ? 55 : 48);
         this.remaining += 4;
     }
 
@@ -21,11 +21,6 @@ class BitReader {
         this.remaining -= n;
         this.store = this.store & (2 ** this.remaining - 1);
         return out;
-    }
-
-    clearStore () {
-        this.remaining = 0;
-        this.store = 0;
     }
 }
 
@@ -48,14 +43,14 @@ function readPacket (reader) {
     const packet = {
         version,
         ID,
-        length: 6,
+        bitLength: 6,
     };
     if (ID === 4) {
         let val = 0;
         while (true) {
             let final = reader.readBits(1);
             let partial = reader.readBits(4);
-            packet.length += 5;
+            packet.bitLength += 5;
             val = (val * 16) + partial;
             if (final === 0) {
                 break;
@@ -63,29 +58,28 @@ function readPacket (reader) {
         }
         packet.value = val;
     } else {
-        const lenType = reader.readBits(1);
-        packet.lenType = lenType;
-        packet.length += 1;
+        const lengthType = reader.readBits(1);
+        packet.lengthType = lengthType;
+        packet.bitLength += 1;
 
-        const length = reader.readBits(lenType ? 11 : 15);
-        packet.length += lenType ? 11 : 15
-        packet.contentLength = length;
+        packet.bitLength += lengthType ? 11 : 15;
+        packet.contentLength = reader.readBits(lengthType ? 11 : 15);
 
         packet.subPackets = [];
-        if (lenType === 0) {
-            packet.length += length;
-            let lenRemaining = length;
+        if (lengthType === 0) {
+            packet.bitLength += packet.contentLength;
+            let lenRemaining = packet.contentLength;
             while (lenRemaining) {
                 const subPacket = readPacket(reader);
-                lenRemaining -= subPacket.length;
+                lenRemaining -= subPacket.bitLength;
                 packet.subPackets.push(subPacket);
             }
         } else {
-            let lenRemaining = length;
+            let lenRemaining = packet.contentLength;
             while (lenRemaining) {
                 const subPacket = readPacket(reader);
                 lenRemaining -= 1;
-                packet.length += subPacket.length;
+                packet.bitLength += subPacket.bitLength;
                 packet.subPackets.push(subPacket);
             }
         }
