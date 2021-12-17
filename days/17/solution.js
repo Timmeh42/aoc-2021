@@ -13,16 +13,15 @@ module.exports = function (input) {
 
         for (let steps = 0, x = 0; steps <= vx && x <= x2; steps++) {
             if (x >= x1 && x <= x2) {
-                    for (let vy = y1; vy <= -y1; vy++) {
-                        for (let step = 0, y = 0; steps === vx ? y >= y1 : step < steps; step++) {
-                            y += vy - step;
-                            if (step >= steps-1 && y >= y1 && y <= y2) {
-                                velocities.add(vx + ',' + vy);
-                                if (step > steps) break;
-                            }
+                for (let vy = y1; vy <= -y1; vy++) {
+                    for (let step = 0, y = 0; steps === vx ? y >= y1 : step < steps; step++) {
+                        y += vy - step;
+                        if (step >= steps-1 && y >= y1 && y <= y2) {
+                            velocities.add(vx + ',' + vy);
+                            if (step > steps) break;
                         }
                     }
-                
+                }
             }
             x += vx - steps;
         }
