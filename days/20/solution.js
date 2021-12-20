@@ -7,22 +7,23 @@ module.exports = function (input) {
     let image = sections[1].split('\n');
     let width = image[0].length;
     let height = image.length;
-    let offset = 1;
     
     for (let t = 0; t < 50; t++) {
         let newImage = []
         let lit = 0;
-        for (let y = 0; y < height+offset*2; y++) {
+        for (let y = 0; y < height + 2; y++) {
             newImage.push([])
-            for (let x = 0; x < width+offset*2; x++) {
+            for (let x = 0; x < width + 2; x++) {
                 let areaCode = 0;
                 for (let dy = -1; dy <= 1; dy++) {
                     for (let dx = -1; dx <= 1; dx++) {
                         areaCode = areaCode << 1;
-                        pixelRead = image[y-offset+dy]?.[x-offset+dx];
+                        pixelRead = image[y - 1 + dy]?.[x - 1 + dx];
                         if (pixelRead === undefined) {
-                            if (t % 2) {
-                                pixelRead = '1';
+                            if (t % 2 || algo[0] === '0') {
+                                pixelRead = algo[0]
+                            } else {
+                                pixelRead = algo[511]
                             }
                         }
                         areaCode += pixelRead === '1';
@@ -34,21 +35,13 @@ module.exports = function (input) {
             }
         }
         image = newImage;
-        width = width + offset*2;
-        height = height + offset*2;
-        part1 = lit;
+        width = width + 2;
+        height = height + 2;
+        if (t === 1) {
+            part1 = lit;
+        }
+        part2 = lit;
     }
 
     return [part1, part2];
 }
-
-
-/*
-
-
-
-
-
-
-
-*/
