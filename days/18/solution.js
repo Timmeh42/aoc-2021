@@ -18,8 +18,6 @@ module.exports = function (input) {
 
     part1 = magnitude(snailNum);
 
-    const allSnailNums = lines.map(l => parentify(eval(l)));
-
     let magnitudes = [];
     for (let line1 of lines) {
         for (let line2 of lines) {
