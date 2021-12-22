@@ -45,39 +45,28 @@ module.exports = function (input) {
                 cuboid.y1 <= existing.y2 && cuboid.y2 >= existing.y1 &&
                 cuboid.z1 <= existing.z2 && cuboid.z2 >= existing.z1
             ) {
-                const splitResult = intersectCuboids(existing, cuboid);
-                newCuboids.push(existing);
-                newCuboids.push(splitResult);
+                const splitResult = splitCuboid(existing, cuboid);
+                expected += splitResult.length - 1;
+                newCuboids.push(...splitResult);
             } else {
                 newCuboids.push(existing);
             }
         }
         if (cuboid.on) {
             newCuboids.push(cuboid);
+            expected += 1;
         }
         cuboids = newCuboids;
     }
 
     let coverage = 0;
     for (let cuboid of cuboids) {
-        const delta = (cuboid.x2 - cuboid.x1 + 1) * (cuboid.y2 - cuboid.y1 + 1) * (cuboid.z2 - cuboid.z1 + 1) * (-1 + 2 * cuboid.on);
+        const delta = (cuboid.x2 - cuboid.x1 + 1) * (cuboid.y2 - cuboid.y1 + 1) * (cuboid.z2 - cuboid.z1 + 1);
         coverage += delta;
     }
     part2 = coverage;
 
     return [part1, part2];
-}
-
-function intersectCuboids (existing, secting) {
-    return {
-        on: !existing.on,
-        x1: Math.max(existing.x1, secting.x1),
-        y1: Math.max(existing.y1, secting.y1),
-        z1: Math.max(existing.z1, secting.z1),
-        x2: Math.min(existing.x2, secting.x2),
-        y2: Math.min(existing.y2, secting.y2),
-        z2: Math.min(existing.z2, secting.z2),
-    }
 }
 
 function splitCuboid (existing, secting) {
