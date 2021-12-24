@@ -2,12 +2,44 @@ module.exports = function (input) {
     let part1, part2;
     const instructions = input.trim().split('\n').map(l => l.split(' '));
 
-    console.log(runMONAD(instructions, '96299896449997'))
-    console.log(runMONAD(instructions, '31162141116841'))
-    part1 = '96299896449997';
-    part2 = '31162141116841';
+    const sections = input.trim().split('inp w').slice(1).map(s => s.split('\n').filter((l, i) => i === 4 || i === 5 || i === 15).map(s => +(s.match(/-?\d+/g)[0])))
+
+    part1 = findBest(sections);
+    part2 = findBest(sections, false);
 
     return [part1, part2];
+}
+
+function findBest (sections, bigger = true) {
+    const stack = [];
+    const digits = [];
+    for (let s = 0; s < sections.length; s++) {
+        const section = sections[s];
+        if (section[0] === 1) {
+            const digit = bigger ? 9 : 1;
+            digits.push(digit)
+            stack.push({
+                digit: digits.length - 1,
+                value: digit + section[2],
+            });
+        } else {
+            const stored = stack.pop();
+            let digit = stored.value + section[1];
+            if (bigger && digit > 9) {
+                const diff = digit - 9;
+                stored.value -= diff;
+                digits[stored.digit] -= diff;
+                digit = 9;
+            } else if (!bigger && digit < 1) {
+                const diff = 1 - digit;
+                stored.value += diff;
+                digits[stored.digit] += diff;
+                digit = 1;
+            }
+            digits.push(digit);
+        }
+    }
+    return digits.reduce((big, n) => big * 10 + n);
 }
 
 function runMONAD (instructions, input) {
