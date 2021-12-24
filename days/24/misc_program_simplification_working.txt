@@ -1,0 +1,158 @@
+start with 0 0 0 0
+input into w
+set x to w !== 10 (always true)
+set z to z * 26 + w + 12
+
+
+
+input into w
+set x to (z % 26 + 12) === w (awlays false) = 0
+set x to 1
+set y to 26
+set z to z * 26 + w + 7
+
+
+
+input into w
+set x to 1
+set y to 26
+set z to z * 26 + w + 8
+set y to w + 8
+
+
+input into w
+set x to z % 26
+  z = z / 1             OR z / 26
+  x += 12
+x = w !== x
+(ie x = w !== z % 26 + UNIQUE)
+set z to z * (25 * x + 1)
+  set y to w + 8
+set z to z + y * x
+
+input into w
+z = z / unique4
+if (w !== z % 26 + unique5) {
+    z = z * 26 + w + unique15
+}
+
+
+input into w
+x = peek
+z = z or z / 26
+if (w !== x + unique5) {
+    z = z * 26 + w + unique15
+}
+
+-------------------------------
+
+input into w
+x = 0
+z = z
+if (w !== x + 10) {
+    z = z * 26 + w + 12
+}
+
+
+input into w
+x = peek
+z = z
+if (w !== x + 12) {
+    z = z * 26 + w + 7
+}
+
+
+input into w
+x = peek
+z = z
+if (w !== x + 10) {
+    z = z * 26 + w + 8
+}
+
+
+input into w
+x = peek
+z = z
+if (w !== x + 12) {
+    z = z * 26 + w + 8
+}
+
+
+input into w
+x = peek
+z = z
+if (w !== x + 11) {
+    z = z * 26 + w + 15
+}
+
+
+input into w
+x = peek
+z = z / 26
+if (w !== x + -16) {
+    z = z * 26 + w + 12
+}
+
+
+input into w
+x = peek
+z = z
+if (w !== x + 10) {
+    z = z * 26 + w + 8
+}
+
+
+input into w
+x = peek
+z = z / 26
+if (w !== x + -11) {
+    z = z * 26 + w + 13
+}
+
+
+input into w
+x = peek
+z = z / 26
+if (w !== x + -13) {
+    z = z * 26 + w + 3
+}
+
+
+input into w
+x = peek
+z = z
+if (w !== x + 13) {
+    z = z * 26 + w + 13
+}
+
+
+input into w
+x = peek
+z = z / 26
+if (w !== x + -8) {
+    z = z * 26 + w + 3
+}
+
+
+input into w
+x = peek
+z = z / 26
+if (w !== x + -1) {
+    z = z * 26 + w + 9
+}
+
+
+input into w
+x = peek
+z = z / 26
+if (w !== x + -4) {
+    z = z * 26 + w + 4
+}
+
+
+input into w
+x = peek
+z = z / 26
+if (w !== x + -14) {
+    z = z * 26 + w + 13
+}

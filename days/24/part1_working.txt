@@ -1,0 +1,117 @@
+// biggest
+
+input into w
+push w+12
+
+9 -> [21]
+
+input into w
+x = peek
+if (w !== x + 12) {
+    push w+7
+}
+
+6 -> [21, 13]
+
+input into w
+x = peek
+if (w !== x + 10) {
+    push w+8
+}
+
+2 -> [21, 13, 10]
+
+input into w
+x = peek
+if (w !== x + 12) {
+    push w+8
+}
+
+9 -> [21, 13, 10, 17]
+
+input into w
+x = peek
+if (w !== x + 11) {
+    push w+15
+}
+
+9 -> [21, 13, 10, 17, 24]
+
+input into w
+x = peek
+pop
+if (w !== x + -16) {
+    push w+12
+}
+
+8 -> [21, 13, 10, 17]
+
+input into w
+x = peek
+if (w !== x + 10) {
+    push w+8
+}
+
+9 -> [21, 13, 10, 17, 17]
+
+input into w
+x = peek
+pop
+if (w !== x + -11) {
+    push w+13
+}
+
+6 -> [21, 13, 10, 17]
+
+input into w
+x = peek
+pop
+if (w !== x + -13) {
+    push w+3
+}
+
+4 -> [21, 13, 10]
+
+input into w
+x = peek
+if (w !== x + 13) {
+    push w+13
+}
+
+4 -> [21, 13, 10, 17]
+
+input into w
+x = peek
+pop
+if (w !== x + -8) {
+    push w+3
+}
+
+9 -> [21, 13, 10]
+
+input into w
+x = peek
+pop
+if (w !== x + -1) {
+    push w+9
+}
+
+9 -> [21, 13]
+
+input into w
+x = peek
+pop
+if (w !== x + -4) {
+    push w+4
+}
+
+9 -> [21]
+
+input into w
+x = peek
+pop
+if (w !== x + -14) {
+    push w+13
+}
+
+7 -> []

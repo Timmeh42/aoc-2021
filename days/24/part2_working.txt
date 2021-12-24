@@ -1,0 +1,117 @@
+// smallest
+
+input into w
+push w+12
+
+3 -> [15]
+
+input into w
+x = peek
+if (w !== x + 12) {
+    push w+7
+}
+
+1 -> [15, 8]
+
+input into w
+x = peek
+if (w !== x + 10) {
+    push w+8
+}
+
+1 -> [15, 8, 9]
+
+input into w
+x = peek
+if (w !== x + 12) {
+    push w+8
+}
+
+6 -> [15, 8, 9, 14]
+
+input into w
+x = peek
+if (w !== x + 11) {
+    push w+15
+}
+
+2 -> [15, 8, 9, 14, 17]
+
+input into w
+x = peek
+pop
+if (w !== x + -16) {
+    push w+12
+}
+
+1 -> [15, 8, 9, 14]
+
+input into w
+x = peek
+if (w !== x + 10) {
+    push w+8
+}
+
+4 -> [15, 8, 9, 14, 12]
+
+input into w
+x = peek
+pop
+if (w !== x + -11) {
+    push w+13
+}
+
+1 -> [15, 8, 9, 14]
+
+input into w
+x = peek
+pop
+if (w !== x + -13) {
+    push w+3
+}
+
+1 -> [15, 8, 9]
+
+input into w
+x = peek
+if (w !== x + 13) {
+    push w+13
+}
+
+1 -> [15, 8, 9, 14]
+
+input into w
+x = peek
+pop
+if (w !== x + -8) {
+    push w+3
+}
+
+6 -> [15, 8, 9]
+
+input into w
+x = peek
+pop
+if (w !== x + -1) {
+    push w+9
+}
+
+8 -> [15, 8]
+
+input into w
+x = peek
+pop
+if (w !== x + -4) {
+    push w+4
+}
+
+4 -> [15]
+
+input into w
+x = peek
+pop
+if (w !== x + -14) {
+    push w+13
+}
+
+1 -> []
